@@ -37,9 +37,16 @@ def models(request):
     })
 
 def tasks(request):
-    return render(request, "app_main/index.html", context={
+    data_path = settings.BASE_DIR / "data" / "tasks.json"
+    with open(data_path, encoding="utf-8") as f:
+        data = json.load(f)
+    return render(request, "app_main/tasks.html", context={
         "title": "Diixo - Tasks",
         "description": "Diixo tasks description",
+        "goal": data.get("goal", ""),
+        "prompt_template": data.get("prompt_template", ""),
+        "tasks": data.get("tasks", []),
+        "model_types": data.get("model_types", []),
     })
 
 def datasets(request):

@@ -1,0 +1,66 @@
+{% extends "app_main/base.html" %}
+
+{% block meta %}
+<title>Diixo - Tasks</title>
+<meta property="og:title" content="Diixo - Tasks">
+<meta name="description" content="Diixo tasks">
+<meta property="og:description" content="Diixo tasks">
+{% endblock %}
+
+{% block content %}
+
+<h3 class="fw-bold mt-4">Tasks</h3>
+<p class="text-muted">{{ goal }}</p>
+
+<h5 class="fw-semibold mt-4 mb-3">Document analysis tasks</h5>
+<div class="row g-3">
+  {% for task in tasks %}
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100 shadow-sm border-0">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="material-icons text-primary">{{ task.icon }}</span>
+          <h6 class="card-title mb-0 fw-bold">{{ task.title }}</h6>
+        </div>
+        <p class="card-text small text-body-secondary mb-2">{{ task.description }}</p>
+        <code class="small d-block text-wrap">{{ task.instruction }}</code>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<h5 class="fw-semibold mt-5 mb-3">Model types &mdash; what these tasks need</h5>
+<div class="table-responsive">
+  <table class="table table-sm align-middle bg-white">
+    <thead>
+      <tr>
+        <th scope="col">Model type</th>
+        <th scope="col">Needed?</th>
+        <th scope="col">Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in model_types %}
+      <tr>
+        <td class="fw-semibold">{{ m.name }}</td>
+        <td>
+          {% if m.needed %}
+            <span class="badge text-bg-success">Yes</span>
+          {% else %}
+            <span class="badge text-bg-secondary">No</span>
+          {% endif %}
+        </td>
+        <td class="text-body-secondary">{{ m.note }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if prompt_template %}
+<h5 class="fw-semibold mt-5 mb-3">Prompt template</h5>
+<pre class="bg-white border rounded p-3 small">{{ prompt_template }}</pre>
+{% endif %}
+
+{% endblock %}
