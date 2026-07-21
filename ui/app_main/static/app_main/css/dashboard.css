@@ -142,7 +142,7 @@ body {
 
 .btn-main {
   --bd-blue-bg: #5340ff;
-  --bd-blue-rgb: var(83, 64, 255);
+  --bd-blue-rgb: 83, 64, 255;
   --bs-btn-font-weight: 500;
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bd-blue-bg);
@@ -152,8 +152,8 @@ body {
   --bs-btn-hover-border-color: #3532db;
   --bs-btn-focus-shadow-rgb: var(--bd-blue-rgb);
   --bs-btn-active-color: var(--bs-btn-hover-color);
-  --bs-btn-active-bg: #0078b8;
-  --bs-btn-active-border-color: #0078b8;
+  --bs-btn-active-bg: #3532db;
+  --bs-btn-active-border-color: #3532db;
 }
 
 /*

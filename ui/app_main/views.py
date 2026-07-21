@@ -1,8 +1,8 @@
 import json
-import os
 
 from django.conf import settings
 from django.shortcuts import render, redirect
+from django.utils.text import slugify
 
 
 def main(request):
@@ -56,7 +56,28 @@ def templates(request):
     data_path = settings.BASE_DIR / "data" / "templates.json"
     with open(data_path, encoding="utf-8") as f:
         data = json.load(f)
-    return render(request, "app_main/templates_page.html", context={
+
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        description = request.POST.get("description", "").strip()
+        template = request.POST.get("template", "").strip()
+        if name and template:
+            items = data.setdefault("templates", [])
+            existing_ids = {t.get("id") for t in items}
+            new_id = slugify(name) or f"template-{len(items) + 1}"
+            while new_id in existing_ids:
+                new_id = f"{new_id}-1"
+            items.append({
+                "id": new_id,
+                "name": name,
+                "description": description,
+                "template": template,
+            })
+            with open(data_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        return redirect("app_main:prompt_templates")
+
+    return render(request, "app_main/prompt-templates.html", context={
         "title": "Diixo - Templates",
         "description": "Diixo templates description",
         "goal": data.get("goal", ""),
