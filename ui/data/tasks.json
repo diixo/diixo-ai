@@ -1,6 +1,5 @@
 {
   "goal": "Take a pretrained model and fine-tune it (SFT) to perform 4 document-analysis tasks by instruction — with a single instruction-following model.",
-  "prompt_template": "### Instruction:\n{instruction}\n\n### Document:\n{document}\n\n### Response:\n",
   "tasks": [
     {
       "id": "summarize",

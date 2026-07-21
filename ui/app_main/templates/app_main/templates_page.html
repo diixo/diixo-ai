@@ -1,0 +1,32 @@
+{% extends "app_main/base.html" %}
+
+{% block meta %}
+<title>Diixo - Templates</title>
+<meta property="og:title" content="Diixo - Templates">
+<meta name="description" content="Diixo templates">
+<meta property="og:description" content="Diixo templates">
+{% endblock %}
+
+{% block content %}
+
+<h3 class="fw-bold mt-4">Templates</h3>
+<p class="text-muted">{{ goal }}</p>
+
+<div class="row g-3 mt-1">
+  {% for t in templates %}
+  <div class="col-12 col-lg-8">
+    <div class="card h-100 shadow-sm border-0">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="material-icons text-primary">code</span>
+          <h6 class="card-title mb-0 fw-bold">{{ t.name }}</h6>
+        </div>
+        <pre class="bg-body-tertiary border rounded p-3 small mb-3">{{ t.template }}</pre>
+        <p class="card-text small text-body-secondary mb-2">{{ t.description }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
