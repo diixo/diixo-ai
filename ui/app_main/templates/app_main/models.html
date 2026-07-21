@@ -1,0 +1,43 @@
+{% extends "app_main/base.html" %}
+
+{% block meta %}
+<title>Diixo - Models</title>
+<meta property="og:title" content="Diixo - Models">
+<meta name="description" content="Diixo models">
+<meta property="og:description" content="Diixo models">
+{% endblock %}
+
+{% block content %}
+
+<h3 class="fw-bold mt-4">Models</h3>
+<p class="text-muted">{{ goal }}</p>
+
+<h5 class="fw-semibold mt-4 mb-3">Model types</h5>
+<div class="table-responsive">
+  <table class="table table-sm align-middle bg-white">
+    <thead>
+      <tr>
+        <th scope="col">Model type</th>
+        <th scope="col">Needed?</th>
+        <th scope="col">Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in model_types %}
+      <tr>
+        <td class="fw-semibold">{{ m.name }}</td>
+        <td>
+          {% if m.needed %}
+            <span class="badge text-bg-success">Yes</span>
+          {% else %}
+            <span class="badge text-bg-secondary">No</span>
+          {% endif %}
+        </td>
+        <td class="text-body-secondary">{{ m.note }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

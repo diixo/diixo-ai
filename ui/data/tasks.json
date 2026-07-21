@@ -30,32 +30,5 @@
       "instruction": "Create brief report of document takeaways",
       "description": "Assemble a brief report of document takeaways."
     }
-  ],
-  "model_types": [
-    {
-      "name": "instruction-following",
-      "needed": true,
-      "note": "Core — all 4 tasks are instructions."
-    },
-    {
-      "name": "task-oriented assistant",
-      "needed": true,
-      "note": "The 4 tasks are the assistant's tasks."
-    },
-    {
-      "name": "question-answering",
-      "needed": false,
-      "note": "A 5th task, if you add Q&A over the document."
-    },
-    {
-      "name": "multi-turn with history",
-      "needed": false,
-      "note": "Only needed for follow-up dialogue about the document."
-    },
-    {
-      "name": "emotional / personalized",
-      "needed": false,
-      "note": "Not directly related to document analysis."
-    }
   ]
 }

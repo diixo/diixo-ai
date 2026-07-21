@@ -24,16 +24,15 @@ def report(request):
     })
 
 
-def aispice(request):
-    return render(request, "app_main/index.html", context={
-        "title": "Diixo - main",
-        "description": "Diixo output",
-    })
-
 def models(request):
-    return render(request, "app_main/index.html", context={
+    data_path = settings.BASE_DIR / "data" / "models.json"
+    with open(data_path, encoding="utf-8") as f:
+        data = json.load(f)
+    return render(request, "app_main/models.html", context={
         "title": "Diixo - Models",
         "description": "Diixo models description",
+        "goal": data.get("goal", ""),
+        "model_types": data.get("model_types", []),
     })
 
 def tasks(request):
@@ -46,13 +45,18 @@ def tasks(request):
         "goal": data.get("goal", ""),
         "prompt_template": data.get("prompt_template", ""),
         "tasks": data.get("tasks", []),
-        "model_types": data.get("model_types", []),
     })
 
 def datasets(request):
     return render(request, "app_main/index.html", context={
         "title": "Diixo - Datasets",
         "description": "Diixo datasets description",
+    })
+
+def templates(request):
+    return render(request, "app_main/index.html", context={
+        "title": "Diixo - Templates",
+        "description": "Diixo templates description",
     })
 
 def configs(request):

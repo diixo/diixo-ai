@@ -9,6 +9,7 @@ urlpatterns = [
     path("models", views.models, name="models"),
     path("tasks", views.tasks, name="tasks"),
     path("datasets", views.datasets, name="datasets"),
+    path("templates", views.templates, name="templates"),
     path("configs", views.configs, name="configs"),
     path("trainers", views.trainers, name="trainers"),
     path("trainings", views.trainings, name="trainings"),
@@ -16,5 +17,4 @@ urlpatterns = [
     path("evaluations", views.evaluations, name="evaluations"),
     path("dashboard", views.dashboard, name="dashboard"),
     path("report", views.report, name="report"),
-    path("aispice", views.aispice, name="aispice"),
 ]

@@ -30,34 +30,6 @@
   {% endfor %}
 </div>
 
-<h5 class="fw-semibold mt-5 mb-3">Model types &mdash; what these tasks need</h5>
-<div class="table-responsive">
-  <table class="table table-sm align-middle bg-white">
-    <thead>
-      <tr>
-        <th scope="col">Model type</th>
-        <th scope="col">Needed?</th>
-        <th scope="col">Note</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for m in model_types %}
-      <tr>
-        <td class="fw-semibold">{{ m.name }}</td>
-        <td>
-          {% if m.needed %}
-            <span class="badge text-bg-success">Yes</span>
-          {% else %}
-            <span class="badge text-bg-secondary">No</span>
-          {% endif %}
-        </td>
-        <td class="text-body-secondary">{{ m.note }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
 {% if prompt_template %}
 <h5 class="fw-semibold mt-5 mb-3">Prompt template</h5>
 <pre class="bg-white border rounded p-3 small">{{ prompt_template }}</pre>
