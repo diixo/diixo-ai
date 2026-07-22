@@ -1,0 +1,49 @@
+{% extends "app_main/base.html" %}
+
+{% block meta %}
+<title>Diixo - Datasets</title>
+<meta property="og:title" content="Diixo - Datasets">
+<meta name="description" content="Diixo datasets">
+<meta property="og:description" content="Diixo datasets">
+{% endblock %}
+
+{% block content %}
+
+<h3 class="fw-bold mt-4">Datasets ({{ datasets|length }})</h3>
+<p class="text-muted mb-1">{{ goal }}</p>
+<p class="small text-body-secondary">Source: {{ source }} &mdash; {{ datasets|length }} datasets</p>
+
+<div class="table-responsive mt-3">
+  <table class="table table-sm table-hover align-middle bg-white">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Task</th>
+        <th scope="col">Tags</th>
+        <th scope="col">Description</th>
+        <th scope="col">Links</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in datasets %}
+      <tr>
+        <td class="fw-semibold text-nowrap">{{ d.name }}</td>
+        <td><code class="small">{{ d.task }}</code></td>
+        <td>
+          {% for tag in d.tags %}
+            <span class="badge text-bg-light border">{{ tag }}</span>
+          {% endfor %}
+        </td>
+        <td class="small text-body-secondary">{{ d.description }}</td>
+        <td class="text-nowrap">
+          {% for label, url in d.links.items %}
+            <a href="{{ url }}" target="_blank" rel="noopener" class="small d-block">{{ label }}</a>
+          {% endfor %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

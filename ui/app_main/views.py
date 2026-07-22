@@ -47,9 +47,15 @@ def tasks(request):
     })
 
 def datasets(request):
-    return render(request, "app_main/index.html", context={
+    data_path = settings.BASE_DIR / "data" / "datasets.json"
+    with open(data_path, encoding="utf-8") as f:
+        data = json.load(f)
+    return render(request, "app_main/datasets.html", context={
         "title": "Diixo - Datasets",
         "description": "Diixo datasets description",
+        "goal": data.get("goal", ""),
+        "source": data.get("source", ""),
+        "datasets": data.get("datasets", []),
     })
 
 def templates(request):
