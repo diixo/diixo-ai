@@ -12,32 +12,109 @@
 <h3 class="fw-bold mt-4">Models</h3>
 <p class="text-muted">{{ goal }}</p>
 
-<h5 class="fw-semibold mt-4 mb-3">Model types</h5>
-<div class="table-responsive">
-  <table class="table table-sm align-middle bg-white">
-    <thead>
-      <tr>
-        <th scope="col">Model type</th>
-        <th scope="col">Needed?</th>
-        <th scope="col">Note</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for m in model_types %}
-      <tr>
-        <td class="fw-semibold">{{ m.name }}</td>
-        <td>
-          {% if m.needed %}
-            <span class="badge text-bg-success">Yes</span>
-          {% else %}
-            <span class="badge text-bg-secondary">No</span>
-          {% endif %}
-        </td>
-        <td class="text-body-secondary">{{ m.note }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<button type="button" class="btn btn-main d-inline-flex align-items-center align-self-start mb-2"
+  data-bs-toggle="modal" data-bs-target="#addModelModal">
+  <span class="material-icons me-1">add</span> Add model
+</button>
+
+<div class="row g-3 mt-1 mb-4">
+  {% for m in models %}
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100 shadow-sm border-0">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="material-icons text-primary">memory</span>
+          <h6 class="card-title mb-0 fw-bold flex-grow-1">{{ m.name }}</h6>
+          <button type="button" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center"
+            data-bs-toggle="modal" data-bs-target="#editModelModal"
+            data-id="{{ m.id }}" data-name="{{ m.name }}" data-architecture="{{ m.architecture }}">
+            <span class="material-icons" style="font-size: 18px;">edit</span>
+          </button>
+        </div>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-1"><span class="text-body-secondary">Architecture:</span> <span class="badge text-bg-primary">{{ m.architecture }}</span></li>
+          {% if m.parent_name %}<li class="mb-1"><span class="text-body-secondary">Parent:</span> <strong>{{ m.parent_name }}</strong></li>{% endif %}
+          {% if m.config_name %}<li><span class="text-body-secondary">Config:</span> <strong>{{ m.config_name }}</strong></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
+
+<div class="modal fade" id="addModelModal" tabindex="-1" aria-labelledby="addModelModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModelModalLabel">Add model</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="modName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="modName" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="modArch" class="form-label">Architecture</label>
+            <select class="form-select" id="modArch" name="architecture" required>
+              {% for arch in architectures %}
+              <option value="{{ arch }}">{{ arch }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModelModal" tabindex="-1" aria-labelledby="editModelModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="edit">
+        <input type="hidden" name="model_id" id="editModId">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModelModalLabel">Edit model</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="editModName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="editModName" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="editModArch" class="form-label">Architecture</label>
+            <select class="form-select" id="editModArch" name="architecture" required>
+              {% for arch in architectures %}
+              <option value="{{ arch }}">{{ arch }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('editModelModal').addEventListener('show.bs.modal', function (event) {
+    var btn = event.relatedTarget;
+    document.getElementById('editModId').value = btn.getAttribute('data-id');
+    document.getElementById('editModName').value = btn.getAttribute('data-name');
+    document.getElementById('editModArch').value = btn.getAttribute('data-architecture');
+  });
+</script>
 
 {% endblock %}

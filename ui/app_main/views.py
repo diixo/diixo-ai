@@ -25,23 +25,69 @@ def report(request):
 
 
 def models(request):
-    data_path = settings.BASE_DIR / "data" / "models.json"
+    data_path = settings.BASE_DIR / "data" / "model_cards.json"
     with open(data_path, encoding="utf-8") as f:
         data = json.load(f)
+
+    if request.method == "POST":
+        action = request.POST.get("action", "add")
+        name = request.POST.get("name", "").strip()
+        architecture = request.POST.get("architecture", "").strip()
+
+        if name and architecture:
+            items = data.setdefault("models", [])
+
+            if action == "edit":
+                model_id = request.POST.get("model_id", "")
+                for item in items:
+                    if item.get("id") == model_id:
+                        item["name"] = name
+                        item["architecture"] = architecture
+                        break
+            else:
+                existing_ids = {m.get("id") for m in items}
+                new_id = f"mod_{slugify(name) or len(items) + 1}"
+                while new_id in existing_ids:
+                    new_id = f"{new_id}-1"
+                items.append({
+                    "id": new_id,
+                    "name": name,
+                    "architecture": architecture,
+                    "parent_id": None,
+                    "config_id": None,
+                })
+
+            with open(data_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        return redirect("app_main:models")
+
+    configs_path = settings.BASE_DIR / "data" / "configs.json"
+    with open(configs_path, encoding="utf-8") as f:
+        configs_data = json.load(f)
+
+    models_list = data.get("models", [])
+    configs_map = {c["id"]: c["name"] for c in configs_data.get("configs", [])}
+    models_map = {m["id"]: m["name"] for m in models_list}
+
+    for m in models_list:
+        m["parent_name"] = models_map.get(m.get("parent_id"), "")
+        m["config_name"] = configs_map.get(m.get("config_id"), "")
+
     return render(request, "app_main/models.html", context={
         "title": "Diixo - Models",
-        "description": "Diixo models description",
+        "description": "Model cards registry",
         "goal": data.get("goal", ""),
-        "model_types": data.get("model_types", []),
+        "architectures": data.get("architectures", []),
+        "models": models_list,
     })
 
-def tasks(request):
+def instructions(request):
     data_path = settings.BASE_DIR / "data" / "tasks.json"
     with open(data_path, encoding="utf-8") as f:
         data = json.load(f)
-    return render(request, "app_main/tasks.html", context={
-        "title": "Diixo - Tasks",
-        "description": "Diixo tasks description",
+    return render(request, "app_main/instructions.html", context={
+        "title": "Diixo - Instructions",
+        "description": "Diixo instructions description",
         "goal": data.get("goal", ""),
         "tasks": data.get("tasks", []),
     })
@@ -163,9 +209,75 @@ def trainers(request):
     })
 
 def trainings(request):
-    return render(request, "app_main/index.html", context={
+    trainings_path = settings.BASE_DIR / "data" / "trainings.json"
+    models_path = settings.BASE_DIR / "data" / "model_cards.json"
+    configs_path = settings.BASE_DIR / "data" / "configs.json"
+
+    with open(trainings_path, encoding="utf-8") as f:
+        trainings_data = json.load(f)
+    with open(models_path, encoding="utf-8") as f:
+        models_data = json.load(f)
+    with open(configs_path, encoding="utf-8") as f:
+        configs_data = json.load(f)
+
+    if request.method == "POST":
+        model_in = request.POST.get("model_in", "").strip()
+        config_id = request.POST.get("config_id", "").strip()
+        model_out_name = request.POST.get("model_out_name", "").strip()
+
+        if model_in and config_id and model_out_name:
+            steps = trainings_data.setdefault("steps", [])
+            models_list = models_data.setdefault("models", [])
+
+            existing_model_ids = {m.get("id") for m in models_list}
+            new_model_id = f"mod_{slugify(model_out_name) or len(models_list) + 1}"
+            while new_model_id in existing_model_ids:
+                new_model_id = f"{new_model_id}-1"
+
+            parent_model = next((m for m in models_list if m["id"] == model_in), None)
+            architecture = parent_model["architecture"] if parent_model else "GPT"
+
+            models_list.append({
+                "id": new_model_id,
+                "name": model_out_name,
+                "architecture": architecture,
+                "parent_id": model_in,
+                "config_id": config_id,
+            })
+
+            step_id = f"step_{len(steps) + 1}"
+            steps.append({
+                "id": step_id,
+                "model_in": model_in,
+                "config_id": config_id,
+                "model_out": new_model_id,
+            })
+
+            with open(models_path, "w", encoding="utf-8") as f:
+                json.dump(models_data, f, ensure_ascii=False, indent=2)
+            with open(trainings_path, "w", encoding="utf-8") as f:
+                json.dump(trainings_data, f, ensure_ascii=False, indent=2)
+
+        return redirect("app_main:trainings")
+
+    models_list = models_data.get("models", [])
+    configs_list = configs_data.get("configs", [])
+    models_map = {m["id"]: m["name"] for m in models_list}
+    configs_map = {c["id"]: c["name"] for c in configs_list}
+
+    steps = trainings_data.get("steps", [])
+    for step in steps:
+        step["model_in_name"] = models_map.get(step.get("model_in"), "?")
+        step["config_name"] = configs_map.get(step.get("config_id"), "?")
+        step["model_out_name"] = models_map.get(step.get("model_out"), "?")
+
+    return render(request, "app_main/trainings.html", context={
         "title": "Diixo - Trainings",
-        "description": "Diixo trainings description",
+        "description": "Training pipeline",
+        "goal": trainings_data.get("goal", ""),
+        "steps": steps,
+        "models": models_list,
+        "configs": configs_list,
     })
 
 def evaluators(request):

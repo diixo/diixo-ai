@@ -1,18 +1,18 @@
 {% extends "app_main/base.html" %}
 
 {% block meta %}
-<title>Diixo - Tasks</title>
-<meta property="og:title" content="Diixo - Tasks">
-<meta name="description" content="Diixo tasks">
-<meta property="og:description" content="Diixo tasks">
+<title>Diixo - Instructions</title>
+<meta property="og:title" content="Diixo - Instructions">
+<meta name="description" content="Diixo instructions">
+<meta property="og:description" content="Diixo instructions">
 {% endblock %}
 
 {% block content %}
 
-<h3 class="fw-bold mt-4">Tasks</h3>
+<h3 class="fw-bold mt-4">Instructions</h3>
 <p class="text-muted">{{ goal }}</p>
 
-<h5 class="fw-semibold mt-4 mb-3">Document analysis tasks</h5>
+<h5 class="fw-semibold mt-4 mb-3">Document analysis instructions</h5>
 <div class="row g-3">
   {% for task in tasks %}
   <div class="col-md-6 col-lg-3">
