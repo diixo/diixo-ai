@@ -52,6 +52,9 @@
 
   --brand-link: #0052cc;
   --brand-link-rgb: 0, 82, 204;
+
+  --brand-violet: #683CE8;
+  --brand-violet-rgb: 104, 60, 232;
 }
 
 
@@ -141,15 +144,15 @@ body {
 }
 
 .btn-main {
-  --bd-blue-bg: #5340ff;
-  --bd-blue-rgb: 83, 64, 255;
+  --bd-blue-bg: var(--brand-violet);
+  --bd-blue-rgb: var(--brand-violet-rgb);
   --bs-btn-font-weight: 500;
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bd-blue-bg);
   --bs-btn-border-color: var(--bd-blue-bg);
   --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #3532db;
-  --bs-btn-hover-border-color: #3532db;
+  --bs-btn-hover-bg: #5a23c8;
+  --bs-btn-hover-border-color: #5a23c8;
   --bs-btn-focus-shadow-rgb: var(--bd-blue-rgb);
   --bs-btn-active-color: var(--bs-btn-hover-color);
   --bs-btn-active-bg: #3532db;
@@ -199,14 +202,14 @@ main {
 .sidebar {
   --nav-item-radius: 6px;
   --nav-item-hover-bg: #f4f4f4;
-  --nav-item-active-bg: rgba(13, 110, 253, 0.1); /* bg-primary bg-opacity-10 */
-  --nav-item-active-color: var(--brand-blue);
+  --nav-item-active-bg: #F2EEFF; /* bg-primary bg-opacity-10 */
+  --nav-item-active-color: var(--brand-violet);
 
   --nav-indicator-width: 4px;
   --nav-indicator-height: 24px;
   --nav-indicator-offset: 8px;
   --nav-indicator-radius: 6px;
-  --nav-indicator-color: var(--brand-blue);
+  --nav-indicator-color: var(--brand-violet);
 
   /* Иконки пунктов остаются приглушённо-серыми независимо от состояния
      (active / hover), как в sidebar-github-menu-icon.html.
