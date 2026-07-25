@@ -28,14 +28,16 @@
           <button type="button" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center"
             data-bs-toggle="modal" data-bs-target="#editModelModal"
             data-id="{{ m.id }}" data-name="{{ m.name }}" data-architecture="{{ m.architecture }}"
-            data-parent="{{ m.parent_id|default_if_none:'' }}" data-config="{{ m.config_id|default_if_none:'' }}">
+            data-parent="{{ m.parent_id|default_if_none:'' }}" data-config="{{ m.config_id|default_if_none:'' }}"
+            data-datasets="{{ m.dataset_ids|join:', ' }}">
             <span class="material-icons" style="font-size: 18px;">edit</span>
           </button>
         </div>
         <ul class="list-unstyled small mb-0">
           <li class="mb-1"><span class="text-body-secondary">Architecture:</span> <span class="badge text-bg-primary">{{ m.architecture }}</span></li>
           {% if m.parent_name %}<li class="mb-1"><span class="text-body-secondary">Parent:</span> <strong>{{ m.parent_name }}</strong></li>{% endif %}
-          {% if m.config_name %}<li><span class="text-body-secondary">Config:</span> <strong>{{ m.config_name }}</strong></li>{% endif %}
+          {% if m.config_name %}<li class="mb-1"><span class="text-body-secondary">Config:</span> <strong>{{ m.config_name }}</strong></li>{% endif %}
+          {% if m.dataset_names %}<li><span class="text-body-secondary">Datasets:</span> {% for dn in m.dataset_names %}<span class="badge text-bg-light border me-1">{{ dn }}</span>{% endfor %}</li>{% endif %}
         </ul>
       </div>
     </div>
@@ -117,6 +119,15 @@
               {% endfor %}
             </select>
           </div>
+          <div class="mb-3">
+            <label for="editModDatasets" class="form-label">Datasets</label>
+            <select class="form-select" id="editModDatasets" name="dataset_ids" multiple size="4">
+              {% for d in datasets %}
+              <option value="{{ d.id }}">{{ d.name }}</option>
+              {% endfor %}
+            </select>
+            <div class="form-text">Hold Ctrl to select multiple</div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -135,6 +146,12 @@
     document.getElementById('editModArch').value = btn.getAttribute('data-architecture');
     document.getElementById('editModParent').value = btn.getAttribute('data-parent');
     document.getElementById('editModConfig').value = btn.getAttribute('data-config');
+
+    var dsSelect = document.getElementById('editModDatasets');
+    var dsIds = btn.getAttribute('data-datasets').split(',').map(function(s) { return s.trim(); });
+    for (var i = 0; i < dsSelect.options.length; i++) {
+      dsSelect.options[i].selected = dsIds.indexOf(dsSelect.options[i].value) !== -1;
+    }
   });
 </script>
 

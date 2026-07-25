@@ -41,12 +41,14 @@ def models(request):
                 model_id = request.POST.get("model_id", "")
                 parent_id = request.POST.get("parent_id", "").strip() or None
                 config_id = request.POST.get("config_id", "").strip() or None
+                dataset_ids = request.POST.getlist("dataset_ids")
                 for item in items:
                     if item.get("id") == model_id:
                         item["name"] = name
                         item["architecture"] = architecture
                         item["parent_id"] = parent_id
                         item["config_id"] = config_id
+                        item["dataset_ids"] = dataset_ids
                         break
             else:
                 existing_ids = {m.get("id") for m in items}
@@ -59,6 +61,7 @@ def models(request):
                     "architecture": architecture,
                     "parent_id": None,
                     "config_id": None,
+                    "dataset_ids": [],
                 })
 
             with open(data_path, "w", encoding="utf-8") as f:
@@ -68,14 +71,20 @@ def models(request):
     configs_path = settings.BASE_DIR / "data" / "configs.json"
     with open(configs_path, encoding="utf-8") as f:
         configs_data = json.load(f)
+    datasets_path = settings.BASE_DIR / "data" / "datasets.json"
+    with open(datasets_path, encoding="utf-8") as f:
+        datasets_data = json.load(f)
 
     models_list = data.get("models", [])
     configs_map = {c["id"]: c["name"] for c in configs_data.get("configs", [])}
     models_map = {m["id"]: m["name"] for m in models_list}
+    datasets_list = datasets_data.get("datasets", [])
+    datasets_map = {d["id"]: d["name"] for d in datasets_list}
 
     for m in models_list:
         m["parent_name"] = models_map.get(m.get("parent_id"), "")
         m["config_name"] = configs_map.get(m.get("config_id"), "")
+        m["dataset_names"] = [datasets_map.get(did, did) for did in m.get("dataset_ids", [])]
 
     return render(request, "app_main/models.html", context={
         "title": "Diixo - Models",
@@ -84,6 +93,7 @@ def models(request):
         "architectures": data.get("architectures", []),
         "models": models_list,
         "configs": configs_data.get("configs", []),
+        "datasets": datasets_list,
     })
 
 def instructions(request):
