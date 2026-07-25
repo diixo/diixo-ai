@@ -17,25 +17,29 @@
   <span class="material-icons me-1">add</span> Add step
 </button>
 
-{% if steps %}
-<div class="mb-4">
-  {% for step in steps %}
-  <div class="d-flex align-items-center gap-2 mb-2">
-    <span class="badge text-bg-primary px-3 py-2">{{ step.model_in_name }}</span>
-    <span class="material-icons text-muted">arrow_forward</span>
-    <span class="badge text-bg-warning px-3 py-2">{{ step.config_name }}</span>
-    <span class="material-icons text-muted">arrow_forward</span>
-    <span class="badge text-bg-success px-3 py-2">{{ step.model_out_name }}</span>
+{% if chains %}
+  {% for chain in chains %}
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      {% for node in chain %}
+      <div class="d-flex align-items-center gap-2 {% if not forloop.first %}mt-2{% endif %}">
+        <span class="badge text-bg-primary px-3 py-2">{{ node.name }}</span>
+        {% if node.config_name %}
+        <span class="material-icons text-muted small">east</span>
+        <span class="badge text-bg-warning px-2 py-1">{{ node.config_name }}</span>
+        {% endif %}
+      </div>
+      {% if not forloop.last %}
+      <div class="ps-3 my-1">
+        <span class="material-icons text-muted" style="font-size: 20px;">south</span>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
   </div>
-  {% if not forloop.last %}
-  <div class="ps-3 mb-2">
-    <span class="material-icons text-muted" style="font-size: 20px;">south</span>
-  </div>
-  {% endif %}
   {% endfor %}
-</div>
 {% else %}
-<p class="text-muted">No training steps yet. Add the first step to start building the pipeline.</p>
+<p class="text-muted">No training chains found. Add models with parent links to build the pipeline.</p>
 {% endif %}
 
 <div class="modal fade" id="addStepModal" tabindex="-1" aria-labelledby="addStepModalLabel" aria-hidden="true">
@@ -67,7 +71,7 @@
             </select>
           </div>
           <div class="mb-3">
-            <label for="stepModelOut" class="form-label">Output Model</label>
+            <label for="stepModelOutExisting" class="form-label">Output Model</label>
             <select class="form-select" id="stepModelOutExisting" name="model_out_existing">
               <option value="">— Create new model —</option>
               {% for m in models %}

@@ -267,12 +267,9 @@ def trainers(request):
     })
 
 def trainings(request):
-    trainings_path = settings.BASE_DIR / "data" / "trainings.json"
     models_path = settings.BASE_DIR / "data" / "model_cards.json"
     configs_path = settings.BASE_DIR / "data" / "configs.json"
 
-    with open(trainings_path, encoding="utf-8") as f:
-        trainings_data = json.load(f)
     with open(models_path, encoding="utf-8") as f:
         models_data = json.load(f)
     with open(configs_path, encoding="utf-8") as f:
@@ -285,13 +282,11 @@ def trainings(request):
         model_out_name = request.POST.get("model_out_name", "").strip()
 
         if model_in and config_id and (model_out_existing or model_out_name):
-            steps = trainings_data.setdefault("steps", [])
             models_list = models_data.setdefault("models", [])
 
             if model_out_existing:
-                model_out_id = model_out_existing
                 for m in models_list:
-                    if m["id"] == model_out_id:
+                    if m["id"] == model_out_existing:
                         m["parent_id"] = model_in
                         m["config_id"] = config_id
                         break
@@ -310,20 +305,11 @@ def trainings(request):
                     "architecture": architecture,
                     "parent_id": model_in,
                     "config_id": config_id,
+                    "dataset_ids": [],
                 })
-
-            step_id = f"step_{len(steps) + 1}"
-            steps.append({
-                "id": step_id,
-                "model_in": model_in,
-                "config_id": config_id,
-                "model_out": model_out_id,
-            })
 
             with open(models_path, "w", encoding="utf-8") as f:
                 json.dump(models_data, f, ensure_ascii=False, indent=2)
-            with open(trainings_path, "w", encoding="utf-8") as f:
-                json.dump(trainings_data, f, ensure_ascii=False, indent=2)
 
         return redirect("app_main:trainings")
 
@@ -332,17 +318,35 @@ def trainings(request):
     models_map = {m["id"]: m["name"] for m in models_list}
     configs_map = {c["id"]: c["name"] for c in configs_list}
 
-    steps = trainings_data.get("steps", [])
-    for step in steps:
-        step["model_in_name"] = models_map.get(step.get("model_in"), "?")
-        step["config_name"] = configs_map.get(step.get("config_id"), "?")
-        step["model_out_name"] = models_map.get(step.get("model_out"), "?")
+    children_map = {}
+    for m in models_list:
+        pid = m.get("parent_id")
+        if pid:
+            children_map.setdefault(pid, []).append(m["id"])
+
+    roots = [m for m in models_list if not m.get("parent_id")]
+
+    chains = []
+    for root in roots:
+        chain = []
+        current_id = root["id"]
+        while current_id:
+            model = next((m for m in models_list if m["id"] == current_id), None)
+            if not model:
+                break
+            chain.append({
+                "name": model["name"],
+                "config_name": configs_map.get(model.get("config_id"), ""),
+            })
+            children = children_map.get(current_id, [])
+            current_id = children[0] if children else None
+        chains.append(chain)
 
     return render(request, "app_main/trainings.html", context={
         "title": "Diixo - Trainings",
         "description": "Training pipeline",
-        "goal": trainings_data.get("goal", ""),
-        "steps": steps,
+        "goal": "Training pipeline built from model lineage",
+        "chains": chains,
         "models": models_list,
         "configs": configs_list,
     })
@@ -354,7 +358,73 @@ def evaluators(request):
     })
 
 def evaluations(request):
-    return render(request, "app_main/index.html", context={
+    data_path = settings.BASE_DIR / "data" / "evaluations.json"
+    models_path = settings.BASE_DIR / "data" / "model_cards.json"
+    datasets_path = settings.BASE_DIR / "data" / "datasets.json"
+
+    with open(data_path, encoding="utf-8") as f:
+        data = json.load(f)
+    with open(models_path, encoding="utf-8") as f:
+        models_data = json.load(f)
+    with open(datasets_path, encoding="utf-8") as f:
+        datasets_data = json.load(f)
+
+    if request.method == "POST":
+        action = request.POST.get("action", "add")
+        name = request.POST.get("name", "").strip()
+        eval_type = request.POST.get("eval_type", "").strip()
+        metrics = request.POST.get("metrics", "").strip()
+        model_id = request.POST.get("model_id", "").strip()
+        dataset_id = request.POST.get("dataset_id", "").strip()
+
+        if name:
+            items = data.setdefault("evaluations", [])
+            metrics_list = [m.strip() for m in metrics.split(",") if m.strip()] if metrics else []
+
+            if action == "edit":
+                eval_id = request.POST.get("eval_id", "")
+                for item in items:
+                    if item.get("id") == eval_id:
+                        item["name"] = name
+                        item["eval_type"] = eval_type or None
+                        item["metrics"] = metrics_list
+                        item["model_id"] = model_id or None
+                        item["dataset_id"] = dataset_id or None
+                        break
+            else:
+                existing_ids = {e.get("id") for e in items}
+                new_id = f"eval_{slugify(name) or len(items) + 1}"
+                while new_id in existing_ids:
+                    new_id = f"{new_id}-1"
+                items.append({
+                    "id": new_id,
+                    "name": name,
+                    "eval_type": eval_type or None,
+                    "metrics": metrics_list,
+                    "model_id": model_id or None,
+                    "dataset_id": dataset_id or None,
+                })
+
+            with open(data_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        return redirect("app_main:evaluations")
+
+    models_list = models_data.get("models", [])
+    datasets_list = datasets_data.get("datasets", [])
+    models_map = {m["id"]: m["name"] for m in models_list}
+    datasets_map = {d["id"]: d["name"] for d in datasets_list}
+
+    evaluations = data.get("evaluations", [])
+    for e in evaluations:
+        e["model_name"] = models_map.get(e.get("model_id"), "")
+        e["dataset_name"] = datasets_map.get(e.get("dataset_id"), "")
+
+    return render(request, "app_main/evaluations.html", context={
         "title": "Diixo - Evaluations",
-        "description": "Diixo evaluations description",
+        "description": "Evaluation cards",
+        "goal": data.get("goal", ""),
+        "eval_types": data.get("eval_types", []),
+        "evaluations": evaluations,
+        "models": models_list,
+        "datasets": datasets_list,
     })
