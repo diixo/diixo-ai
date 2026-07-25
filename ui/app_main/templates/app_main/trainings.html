@@ -67,8 +67,17 @@
             </select>
           </div>
           <div class="mb-3">
-            <label for="stepModelOut" class="form-label">Output Model Name</label>
-            <input type="text" class="form-control" id="stepModelOut" name="model_out_name" required
+            <label for="stepModelOut" class="form-label">Output Model</label>
+            <select class="form-select" id="stepModelOutExisting" name="model_out_existing">
+              <option value="">— Create new model —</option>
+              {% for m in models %}
+              <option value="{{ m.id }}">{{ m.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3" id="stepModelOutNameWrap">
+            <label for="stepModelOut" class="form-label">New Model Name</label>
+            <input type="text" class="form-control" id="stepModelOut" name="model_out_name"
               placeholder="e.g. gpt-r-0.3b-warmup">
           </div>
         </div>
@@ -80,5 +89,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('stepModelOutExisting').addEventListener('change', function () {
+    document.getElementById('stepModelOutNameWrap').classList.toggle('d-none', !!this.value);
+  });
+</script>
 
 {% endblock %}

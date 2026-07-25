@@ -27,7 +27,8 @@
           <h6 class="card-title mb-0 fw-bold flex-grow-1">{{ m.name }}</h6>
           <button type="button" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center"
             data-bs-toggle="modal" data-bs-target="#editModelModal"
-            data-id="{{ m.id }}" data-name="{{ m.name }}" data-architecture="{{ m.architecture }}">
+            data-id="{{ m.id }}" data-name="{{ m.name }}" data-architecture="{{ m.architecture }}"
+            data-parent="{{ m.parent_id|default_if_none:'' }}" data-config="{{ m.config_id|default_if_none:'' }}">
             <span class="material-icons" style="font-size: 18px;">edit</span>
           </button>
         </div>
@@ -98,6 +99,24 @@
               {% endfor %}
             </select>
           </div>
+          <div class="mb-3">
+            <label for="editModParent" class="form-label">Parent Model</label>
+            <select class="form-select" id="editModParent" name="parent_id">
+              <option value="">— none —</option>
+              {% for mod in models %}
+              <option value="{{ mod.id }}">{{ mod.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="editModConfig" class="form-label">Training Config</label>
+            <select class="form-select" id="editModConfig" name="config_id">
+              <option value="">— none —</option>
+              {% for c in configs %}
+              <option value="{{ c.id }}">{{ c.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -114,6 +133,8 @@
     document.getElementById('editModId').value = btn.getAttribute('data-id');
     document.getElementById('editModName').value = btn.getAttribute('data-name');
     document.getElementById('editModArch').value = btn.getAttribute('data-architecture');
+    document.getElementById('editModParent').value = btn.getAttribute('data-parent');
+    document.getElementById('editModConfig').value = btn.getAttribute('data-config');
   });
 </script>
 

@@ -13,21 +13,21 @@
       "name": "gpt-r-0.3b-warmup",
       "architecture": "gpt-r (302M)",
       "parent_id": null,
-      "config_id": null
+      "config_id": "conf_warm-up"
     },
     {
       "id": "mod_gpt-r-03b-base",
       "name": "gpt-r-0.3b-base",
       "architecture": "gpt-r (302M)",
-      "parent_id": null,
-      "config_id": null
+      "parent_id": "mod_gpt-r",
+      "config_id": "conf_pre-train-base"
     },
     {
       "id": "mod_gpt-r-03b",
       "name": "gpt-r-0.3b",
       "architecture": "gpt-r (302M)",
-      "parent_id": null,
-      "config_id": null
+      "parent_id": "mod_gpt-r-03b-base",
+      "config_id": "conf_pre-train-stabilization"
     }
   ]
 }

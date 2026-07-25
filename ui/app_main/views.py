@@ -39,10 +39,14 @@ def models(request):
 
             if action == "edit":
                 model_id = request.POST.get("model_id", "")
+                parent_id = request.POST.get("parent_id", "").strip() or None
+                config_id = request.POST.get("config_id", "").strip() or None
                 for item in items:
                     if item.get("id") == model_id:
                         item["name"] = name
                         item["architecture"] = architecture
+                        item["parent_id"] = parent_id
+                        item["config_id"] = config_id
                         break
             else:
                 existing_ids = {m.get("id") for m in items}
@@ -79,6 +83,7 @@ def models(request):
         "goal": data.get("goal", ""),
         "architectures": data.get("architectures", []),
         "models": models_list,
+        "configs": configs_data.get("configs", []),
     })
 
 def instructions(request):
@@ -223,34 +228,43 @@ def trainings(request):
     if request.method == "POST":
         model_in = request.POST.get("model_in", "").strip()
         config_id = request.POST.get("config_id", "").strip()
+        model_out_existing = request.POST.get("model_out_existing", "").strip()
         model_out_name = request.POST.get("model_out_name", "").strip()
 
-        if model_in and config_id and model_out_name:
+        if model_in and config_id and (model_out_existing or model_out_name):
             steps = trainings_data.setdefault("steps", [])
             models_list = models_data.setdefault("models", [])
 
-            existing_model_ids = {m.get("id") for m in models_list}
-            new_model_id = f"mod_{slugify(model_out_name) or len(models_list) + 1}"
-            while new_model_id in existing_model_ids:
-                new_model_id = f"{new_model_id}-1"
+            if model_out_existing:
+                model_out_id = model_out_existing
+                for m in models_list:
+                    if m["id"] == model_out_id:
+                        m["parent_id"] = model_in
+                        m["config_id"] = config_id
+                        break
+            else:
+                existing_model_ids = {m.get("id") for m in models_list}
+                model_out_id = f"mod_{slugify(model_out_name) or len(models_list) + 1}"
+                while model_out_id in existing_model_ids:
+                    model_out_id = f"{model_out_id}-1"
 
-            parent_model = next((m for m in models_list if m["id"] == model_in), None)
-            architecture = parent_model["architecture"] if parent_model else "GPT"
+                parent_model = next((m for m in models_list if m["id"] == model_in), None)
+                architecture = parent_model["architecture"] if parent_model else "GPT"
 
-            models_list.append({
-                "id": new_model_id,
-                "name": model_out_name,
-                "architecture": architecture,
-                "parent_id": model_in,
-                "config_id": config_id,
-            })
+                models_list.append({
+                    "id": model_out_id,
+                    "name": model_out_name,
+                    "architecture": architecture,
+                    "parent_id": model_in,
+                    "config_id": config_id,
+                })
 
             step_id = f"step_{len(steps) + 1}"
             steps.append({
                 "id": step_id,
                 "model_in": model_in,
                 "config_id": config_id,
-                "model_out": new_model_id,
+                "model_out": model_out_id,
             })
 
             with open(models_path, "w", encoding="utf-8") as f:
