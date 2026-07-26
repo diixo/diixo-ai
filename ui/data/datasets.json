@@ -79,6 +79,20 @@
       "links": {
         "website": "https://huggingface.co/datasets/aitetic/bookcorpus"
       }
+    },
+    {
+      "id": "arxiv-cs",
+      "name": "arxiv-cs",
+      "task": [
+        "language_modeling"
+      ],
+      "tags": [
+        "QA"
+      ],
+      "description": "",
+      "links": {
+        "website": "https://huggingface.co/datasets/aitetic/arxiv-cs"
+      }
     }
   ]
 }

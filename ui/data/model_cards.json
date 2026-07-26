@@ -37,6 +37,16 @@
       "dataset_ids": [
         "aiteticwikipedia"
       ]
+    },
+    {
+      "id": "mod_gpt-r-post-train",
+      "name": "gpt-r-post-train",
+      "architecture": "gpt-r (302M)",
+      "parent_id": "mod_gpt-r-03b",
+      "config_id": null,
+      "dataset_ids": [
+        "arxiv-cs"
+      ]
     }
   ]
 }
