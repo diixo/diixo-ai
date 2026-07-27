@@ -111,7 +111,7 @@ body {
 .btn-bd-primary {
   --bd-violet-bg: #712cf9;
   --bd-violet-rgb: 113, 44, 249;
-  --bs-btn-font-weight: 500;
+  --bs-btn-font-weight: 400;
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bd-violet-bg);
   --bs-btn-border-color: var(--bd-violet-bg);
@@ -127,7 +127,7 @@ body {
 .btn-blue {
   --bd-blue-bg: var(--brand-blue);
   --bd-blue-rgb: var(--brand-blue-rgb);
-  --bs-btn-font-weight: 500;
+  --bs-btn-font-weight: 400;
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bd-blue-bg);
   --bs-btn-border-color: var(--bd-blue-bg);
@@ -143,7 +143,7 @@ body {
 .btn-main {
   --bd-blue-bg: #5340ff;
   --bd-blue-rgb: 83, 64, 255;
-  --bs-btn-font-weight: 500;
+  --bs-btn-font-weight: 400;
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bd-blue-bg);
   --bs-btn-border-color: var(--bd-blue-bg);
@@ -154,6 +154,11 @@ body {
   --bs-btn-active-color: var(--bs-btn-hover-color);
   --bs-btn-active-bg: #3532db;
   --bs-btn-active-border-color: #3532db;
+}
+
+.text-bg-blue {
+    color: #fff !important;
+    background-color: RGBA(var(--brand-blue-rgb), var(--bs-bg-opacity, 1)) !important;
 }
 
 /*
