@@ -52,6 +52,9 @@
 
   --brand-link: #0052cc;
   --brand-link-rgb: 0, 82, 204;
+
+  --brand-violet: #683CE8; /* hostinger violet */
+  --brand-violet-rgb: 104, 60, 232;
 }
 
 
@@ -154,6 +157,22 @@ body {
   --bs-btn-active-color: var(--bs-btn-hover-color);
   --bs-btn-active-bg: #3532db;
   --bs-btn-active-border-color: #3532db;
+}
+
+.btn-brand-violet {
+  --bd-blue-bg: var(--brand-violet);
+  --bd-blue-rgb: var(--brand-violet-rgb);
+  --bs-btn-font-weight: 400;
+  --bs-btn-color: var(--bs-white);
+  --bs-btn-bg: var(--bd-blue-bg);
+  --bs-btn-border-color: var(--bd-blue-bg);
+  --bs-btn-hover-color: var(--bs-white);
+  --bs-btn-hover-bg: #5a23c8;
+  --bs-btn-hover-border-color: #5a23c8;
+  --bs-btn-focus-shadow-rgb: var(--bd-blue-rgb);
+  --bs-btn-active-color: var(--bs-btn-hover-color);
+  --bs-btn-active-bg: #5a23c8;
+  --bs-btn-active-border-color: #5a23c8;
 }
 
 .text-bg-blue {
