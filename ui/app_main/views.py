@@ -107,6 +107,15 @@ def instructions(request):
         "tasks": data.get("tasks", []),
     })
 
+
+def tasks(request):
+    return render(request, "app_main/tasks.html", context={
+        "title": "Diixo - Tasks",
+        "description": "Tasks list",
+        "goal": "List of tasks",
+    })
+
+
 def datasets(request):
     data_path = settings.BASE_DIR / "data" / "datasets.json"
     with open(data_path, encoding="utf-8") as f:
@@ -162,7 +171,7 @@ def datasets(request):
         "datasets": data.get("datasets", []),
     })
 
-def templates(request):
+def prompt_templates(request):
     data_path = settings.BASE_DIR / "data" / "prompt-templates.json"
     with open(data_path, encoding="utf-8") as f:
         data = json.load(f)
