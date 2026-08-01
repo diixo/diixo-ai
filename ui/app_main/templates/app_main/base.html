@@ -137,17 +137,24 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2 {% if u == 'instructions' %}active{% endif %}"
-                    href="{% url 'app_main:instructions' %}">
-                    <span class="material-icons">checklist</span>
-                    Instructions
+                  <a class="nav-link d-flex align-items-center gap-2 {% if u == 'datasets' %}active{% endif %}"
+                    href="{% url 'app_main:datasets' %}">
+                    <span class="material-icons">storage</span>
+                    Datasets
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2 {% if u == 'datasets' %}active{% endif %}"
-                    href="{% url 'app_main:datasets' %}">
-                    <span class="material-icons">cloud</span>
-                    Datasets
+                  <a class="nav-link d-flex align-items-center gap-2 {% if u == 'tasks' %}active{% endif %}"
+                    href="#">
+                    <span class="material-icons-outlined">checklist</span>
+                    Tasks
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link d-flex align-items-center gap-2 {% if u == 'instructions' %}active{% endif %}"
+                    href="{% url 'app_main:instructions' %}">
+                    <span class="material-icons-outlined">assignment_turned_in</span>
+                    Instructions
                   </a>
                 </li>
                 <li class="nav-item">
@@ -179,17 +186,17 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2 {% if u == 'evaluators' %}active{% endif %}"
-                    href="{% url 'app_main:evaluators' %}">
-                    <span class="material-icons">assistant</span>
-                    Evaluators
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link d-flex align-items-center gap-2 {% if u == 'evaluations' %}active{% endif %}"
                     href="{% url 'app_main:evaluations' %}">
                     <span class="material-icons">auto_graph</span>
                     Evaluations
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link d-flex align-items-center gap-2 {% if u == 'evaluators' %}active{% endif %}"
+                    href="{% url 'app_main:evaluators' %}">
+                    <span class="material-icons">assistant</span>
+                    Chat
                   </a>
                 </li>
               </ul>
@@ -204,7 +211,7 @@
                 <li class="nav-item">
                   <a class="nav-link d-flex align-items-center gap-2" href="#">
                     <span class="material-icons">article</span>
-                    Last used
+                    Trained Models
                   </a>
                 </li>
               </ul>
