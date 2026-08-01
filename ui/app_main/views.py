@@ -97,7 +97,7 @@ def models(request):
     })
 
 def instructions(request):
-    data_path = settings.BASE_DIR / "data" / "tasks.json"
+    data_path = settings.BASE_DIR / "data" / "instructions.json"
     with open(data_path, encoding="utf-8") as f:
         data = json.load(f)
     return render(request, "app_main/instructions.html", context={
