@@ -163,7 +163,7 @@ def datasets(request):
     })
 
 def templates(request):
-    data_path = settings.BASE_DIR / "data" / "templates.json"
+    data_path = settings.BASE_DIR / "data" / "prompt-templates.json"
     with open(data_path, encoding="utf-8") as f:
         data = json.load(f)
 
