@@ -143,20 +143,20 @@ body {
   --bs-btn-active-border-color: #0078b8;
 }
 
-.btn-main {
-  --bd-blue-bg: #5340ff;
-  --bd-blue-rgb: 83, 64, 255;
+.btn-main { /* runpod */
+  --bd-blue-bg: #604CFF;
+  --bd-blue-rgb: 95, 76, 255;
   --bs-btn-font-weight: 400;
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bd-blue-bg);
   --bs-btn-border-color: var(--bd-blue-bg);
   --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #3532db;
-  --bs-btn-hover-border-color: #3532db;
+  --bs-btn-hover-bg: #4C38F0;
+  --bs-btn-hover-border-color: #4C38F0;
   --bs-btn-focus-shadow-rgb: var(--bd-blue-rgb);
   --bs-btn-active-color: var(--bs-btn-hover-color);
-  --bs-btn-active-bg: #3532db;
-  --bs-btn-active-border-color: #3532db;
+  --bs-btn-active-bg: #4C38F0;
+  --bs-btn-active-border-color: #4C38F0;
 }
 
 .btn-brand-violet {
