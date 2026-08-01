@@ -26,6 +26,15 @@
       "learning_rate": 8e-05,
       "batch_size": 10,
       "epochs": 1
+    },
+    {
+      "id": "conf_pre-training-extended",
+      "name": "Pre-training (extended)",
+      "max_len": 0,
+      "learning_rate": 8e-05,
+      "batch_size": 7,
+      "epochs": 1,
+      "sequence_length": 512
     }
   ]
 }

@@ -93,6 +93,20 @@
       "links": {
         "website": "https://huggingface.co/datasets/aitetic/arxiv-cs"
       }
+    },
+    {
+      "id": "eli5-lfqa-combined",
+      "name": "eli5-lfqa-combined",
+      "task": [
+        "language_modeling"
+      ],
+      "tags": [
+        "Pretraining"
+      ],
+      "description": "eli5-lfqa: (ctxs, question+answers[])",
+      "links": {
+        "website": "https://huggingface.co/datasets/aitetic/eli5-lfqa-combined"
+      }
     }
   ]
 }
