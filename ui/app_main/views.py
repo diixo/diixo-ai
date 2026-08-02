@@ -360,14 +360,16 @@ def trainings(request):
         "configs": configs_list,
     })
 
+
 def evaluations(request):
-    return render(request, "app_main/index.html", context={
-        "title": "Diixo - Evaluators",
-        "description": "Diixo evaluators description",
+    return render(request, "app_main/evaluations.html", context={
+        "title": "Diixo - Evaluations",
+        "description": "Diixo evaluations list",
     })
 
+
 def evaluators(request):
-    data_path = settings.BASE_DIR / "data" / "evaluations.json"
+    data_path = settings.BASE_DIR / "data" / "evaluators.json"
     models_path = settings.BASE_DIR / "data" / "model_cards.json"
     datasets_path = settings.BASE_DIR / "data" / "datasets.json"
 
@@ -439,9 +441,9 @@ def evaluators(request):
         e["model_name"] = models_map.get(e.get("model_id"), "")
         e["dataset_name"] = datasets_map.get(e.get("dataset_id"), "")
 
-    return render(request, "app_main/evaluations.html", context={
-        "title": "Diixo - Evaluations",
-        "description": "Evaluation cards",
+    return render(request, "app_main/evaluators.html", context={
+        "title": "Diixo - Evaluators",
+        "description": "Evaluator cards",
         "goal": data.get("goal", ""),
         "eval_types": data.get("eval_types", []),
         "eval_categories": eval_categories,
