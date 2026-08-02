@@ -360,13 +360,13 @@ def trainings(request):
         "configs": configs_list,
     })
 
-def evaluators(request):
+def evaluations(request):
     return render(request, "app_main/index.html", context={
         "title": "Diixo - Evaluators",
         "description": "Diixo evaluators description",
     })
 
-def evaluations(request):
+def evaluators(request):
     data_path = settings.BASE_DIR / "data" / "evaluations.json"
     models_path = settings.BASE_DIR / "data" / "model_cards.json"
     datasets_path = settings.BASE_DIR / "data" / "datasets.json"
