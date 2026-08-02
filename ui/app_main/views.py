@@ -315,8 +315,8 @@ def trainings(request):
 
     return render(request, "app_main/trainings.html", context={
         "title": "Diixo - Trainings",
-        "description": "Training pipeline",
-        "goal": "Training pipeline built from model lineage",
+        "description": "Training pipelines",
+        "goal": "Training pipelines built from model lineage",
         "chains": chains,
         "models": models_list,
         "configs": configs_list,
