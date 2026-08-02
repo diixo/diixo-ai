@@ -365,6 +365,7 @@ def evaluations(request):
     return render(request, "app_main/evaluations.html", context={
         "title": "Diixo - Evaluations",
         "description": "Diixo evaluations list",
+        "goal": "Evaluations list"
     })
 
 
@@ -394,8 +395,6 @@ def evaluators(request):
         eval_type = request.POST.get("eval_type", "").strip()
         category = request.POST.get("category", "").strip()
         metrics = request.POST.get("metrics", "").strip()
-        model_id = request.POST.get("model_id", "").strip()
-        dataset_id = request.POST.get("dataset_id", "").strip()
 
         if name:
             items = data.setdefault("evaluators", [])
@@ -409,8 +408,6 @@ def evaluators(request):
                         item["eval_type"] = eval_type or None
                         item["category"] = category or None
                         item["metrics"] = metrics_list
-                        item["model_id"] = model_id or None
-                        item["dataset_id"] = dataset_id or None
                         break
             else:
                 existing_ids = {e.get("id") for e in items}
@@ -423,8 +420,6 @@ def evaluators(request):
                     "eval_type": eval_type or None,
                     "category": category or None,
                     "metrics": metrics_list,
-                    "model_id": model_id or None,
-                    "dataset_id": dataset_id or None,
                 })
 
             with open(data_path, "w", encoding="utf-8") as f:
@@ -433,13 +428,8 @@ def evaluators(request):
 
     models_list = models_data.get("models", [])
     datasets_list = datasets_data.get("datasets", [])
-    models_map = {m["id"]: m["name"] for m in models_list}
-    datasets_map = {d["id"]: d["name"] for d in datasets_list}
 
     evaluators = data.get("evaluators", [])
-    for e in evaluators:
-        e["model_name"] = models_map.get(e.get("model_id"), "")
-        e["dataset_name"] = datasets_map.get(e.get("dataset_id"), "")
 
     return render(request, "app_main/evaluators.html", context={
         "title": "Diixo - Evaluators",
@@ -448,6 +438,4 @@ def evaluators(request):
         "eval_types": data.get("eval_types", []),
         "eval_categories": eval_categories,
         "evaluators": evaluators,
-        "models": models_list,
-        "datasets": datasets_list,
     })

@@ -20,8 +20,6 @@
       "metrics": [
         "accuracy"
       ],
-      "model_id": null,
-      "dataset_id": null,
       "category": "Academic & Knowledge"
     },
     {
@@ -31,8 +29,6 @@
       "metrics": [
         "normalized accuracy"
       ],
-      "model_id": null,
-      "dataset_id": null,
       "category": "Commonsense & Reasoning"
     },
     {
@@ -42,8 +38,6 @@
       "metrics": [
         "normalized accuracy"
       ],
-      "model_id": null,
-      "dataset_id": null,
       "category": "Academic & Knowledge"
     },
     {
@@ -53,8 +47,6 @@
       "metrics": [
         "accuracy"
       ],
-      "model_id": null,
-      "dataset_id": null,
       "category": "Commonsense & Reasoning"
     },
     {
@@ -64,9 +56,7 @@
       "metrics": [
         "accuracy",
         "informativeness"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_gsm8k",
@@ -74,9 +64,7 @@
       "eval_type": "benchmark",
       "metrics": [
         "accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_humaneval",
@@ -84,9 +72,7 @@
       "eval_type": "benchmark",
       "metrics": [
         "pass@1"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_perplexity",
@@ -94,9 +80,7 @@
       "eval_type": "automated metrics",
       "metrics": [
         "perplexity"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_bleu",
@@ -104,9 +88,7 @@
       "eval_type": "automated metrics",
       "metrics": [
         "BLEU"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_rouge",
@@ -116,9 +98,7 @@
         "ROUGE-1",
         "ROUGE-2",
         "ROUGE-L"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_human-evaluation",
@@ -128,9 +108,7 @@
         "relevance",
         "fluency",
         "coherence"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_ab-test",
@@ -138,9 +116,7 @@
       "eval_type": "a/b test",
       "metrics": [
         "win rate"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_blimp",
@@ -149,9 +125,7 @@
       "category": "Linguistics & Grammar",
       "metrics": [
         "accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_piqa",
@@ -160,9 +134,7 @@
       "category": "Commonsense & Reasoning",
       "metrics": [
         "normalized accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_boolq",
@@ -171,9 +143,7 @@
       "category": "Commonsense & Reasoning",
       "metrics": [
         "accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_copa",
@@ -182,9 +152,7 @@
       "category": "Commonsense & Reasoning",
       "metrics": [
         "accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_race",
@@ -193,9 +161,7 @@
       "category": "Commonsense & Reasoning",
       "metrics": [
         "accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_commonsenseqa",
@@ -204,9 +170,7 @@
       "category": "Commonsense & Reasoning",
       "metrics": [
         "accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_sciq",
@@ -215,9 +179,7 @@
       "category": "Academic & Knowledge",
       "metrics": [
         "normalized accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_arc-easy",
@@ -226,9 +188,7 @@
       "category": "Academic & Knowledge",
       "metrics": [
         "normalized accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_openbookqa",
@@ -237,9 +197,7 @@
       "category": "Academic & Knowledge",
       "metrics": [
         "normalized accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_triviaqa",
@@ -248,9 +206,7 @@
       "category": "Language Modeling",
       "metrics": [
         "accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_lambada",
@@ -259,9 +215,7 @@
       "category": "Language Modeling",
       "metrics": [
         "accuracy"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_c4-perplexity",
@@ -270,9 +224,7 @@
       "category": "Language Modeling",
       "metrics": [
         "word perplexity"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     },
     {
       "id": "eval_wikitext-2wo",
@@ -281,9 +233,7 @@
       "category": "Language Modeling",
       "metrics": [
         "word perplexity"
-      ],
-      "model_id": null,
-      "dataset_id": null
+      ]
     }
   ]
 }

@@ -28,8 +28,7 @@
           <button type="button" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center"
             data-bs-toggle="modal" data-bs-target="#editEvalModal"
             data-id="{{ e.id }}" data-name="{{ e.name }}" data-eval-type="{{ e.eval_type|default_if_none:'' }}"
-            data-category="{{ e.category|default_if_none:'' }}" data-metrics="{{ e.metrics|join:', ' }}"
-            data-model="{{ e.model_id|default_if_none:'' }}" data-dataset="{{ e.dataset_id|default_if_none:'' }}">
+            data-category="{{ e.category|default_if_none:'' }}" data-metrics="{{ e.metrics|join:', ' }}">
             <span class="material-icons" style="font-size: 18px;">edit</span>
           </button>
         </div>
@@ -37,8 +36,6 @@
           {% if e.eval_type %}<li class="mb-1"><span class="text-body-secondary">Type:</span> <span class="badge text-bg-info">{{ e.eval_type }}</span></li>{% endif %}
           {% if e.category %}<li class="mb-1"><span class="text-body-secondary">Category:</span> <span class="badge text-bg-secondary">{{ e.category }}</span></li>{% endif %}
           <li class="mb-1"><span class="text-body-secondary">Metrics:</span> {% for m in e.metrics %}<code class="me-1">{{ m }}</code>{% empty %}<span class="text-muted">—</span>{% endfor %}</li>
-          {% if e.model_name %}<li class="mb-1"><span class="text-body-secondary">Model:</span> <strong>{{ e.model_name }}</strong></li>{% endif %}
-          {% if e.dataset_name %}<li><span class="text-body-secondary">Dataset:</span> <strong>{{ e.dataset_name }}</strong></li>{% endif %}
         </ul>
       </div>
     </div>
@@ -81,24 +78,6 @@
           <div class="mb-3">
             <label for="evalMetrics" class="form-label">Metrics</label>
             <input type="text" class="form-control" id="evalMetrics" name="metrics" placeholder="perplexity, ROUGE, accuracy (comma-separated)">
-          </div>
-          <div class="mb-3">
-            <label for="evalModel" class="form-label">Model</label>
-            <select class="form-select" id="evalModel" name="model_id">
-              <option value="">— none —</option>
-              {% for m in models %}
-              <option value="{{ m.id }}">{{ m.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="evalDataset" class="form-label">Dataset</label>
-            <select class="form-select" id="evalDataset" name="dataset_id">
-              <option value="">— none —</option>
-              {% for d in datasets %}
-              <option value="{{ d.id }}">{{ d.name }}</option>
-              {% endfor %}
-            </select>
           </div>
         </div>
         <div class="modal-footer">
@@ -148,24 +127,6 @@
             <label for="editEvalMetrics" class="form-label">Metrics</label>
             <input type="text" class="form-control" id="editEvalMetrics" name="metrics">
           </div>
-          <div class="mb-3">
-            <label for="editEvalModel" class="form-label">Model</label>
-            <select class="form-select" id="editEvalModel" name="model_id">
-              <option value="">— none —</option>
-              {% for m in models %}
-              <option value="{{ m.id }}">{{ m.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="editEvalDataset" class="form-label">Dataset</label>
-            <select class="form-select" id="editEvalDataset" name="dataset_id">
-              <option value="">— none —</option>
-              {% for d in datasets %}
-              <option value="{{ d.id }}">{{ d.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -184,8 +145,6 @@
     document.getElementById('editEvalType').value = btn.getAttribute('data-eval-type');
     document.getElementById('editEvalCategory').value = btn.getAttribute('data-category');
     document.getElementById('editEvalMetrics').value = btn.getAttribute('data-metrics');
-    document.getElementById('editEvalModel').value = btn.getAttribute('data-model');
-    document.getElementById('editEvalDataset').value = btn.getAttribute('data-dataset');
   });
 </script>
 
