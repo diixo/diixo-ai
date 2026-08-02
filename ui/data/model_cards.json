@@ -40,7 +40,7 @@
     },
     {
       "id": "mod_gpt-r-post-train",
-      "name": "gpt-r-post-train",
+      "name": "gptr-noomo-0.3b",
       "architecture": "gpt-r small (302M)",
       "parent_id": "mod_gpt-r-03b",
       "config_id": "conf_pre-training-extended",

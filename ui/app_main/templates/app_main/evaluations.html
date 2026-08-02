@@ -28,13 +28,14 @@
           <button type="button" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center"
             data-bs-toggle="modal" data-bs-target="#editEvalModal"
             data-id="{{ e.id }}" data-name="{{ e.name }}" data-eval-type="{{ e.eval_type|default_if_none:'' }}"
-            data-metrics="{{ e.metrics|join:', ' }}" data-model="{{ e.model_id|default_if_none:'' }}"
-            data-dataset="{{ e.dataset_id|default_if_none:'' }}">
+            data-category="{{ e.category|default_if_none:'' }}" data-metrics="{{ e.metrics|join:', ' }}"
+            data-model="{{ e.model_id|default_if_none:'' }}" data-dataset="{{ e.dataset_id|default_if_none:'' }}">
             <span class="material-icons" style="font-size: 18px;">edit</span>
           </button>
         </div>
         <ul class="list-unstyled small mb-0">
           {% if e.eval_type %}<li class="mb-1"><span class="text-body-secondary">Type:</span> <span class="badge text-bg-info">{{ e.eval_type }}</span></li>{% endif %}
+          {% if e.category %}<li class="mb-1"><span class="text-body-secondary">Category:</span> <span class="badge text-bg-secondary">{{ e.category }}</span></li>{% endif %}
           <li class="mb-1"><span class="text-body-secondary">Metrics:</span> {% for m in e.metrics %}<code class="me-1">{{ m }}</code>{% empty %}<span class="text-muted">—</span>{% endfor %}</li>
           {% if e.model_name %}<li class="mb-1"><span class="text-body-secondary">Model:</span> <strong>{{ e.model_name }}</strong></li>{% endif %}
           {% if e.dataset_name %}<li><span class="text-body-secondary">Dataset:</span> <strong>{{ e.dataset_name }}</strong></li>{% endif %}
@@ -65,6 +66,15 @@
               <option value="">— none —</option>
               {% for t in eval_types %}
               <option value="{{ t }}">{{ t }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="evalCategory" class="form-label">Category</label>
+            <select class="form-select" id="evalCategory" name="category">
+              <option value="">— none —</option>
+              {% for c in eval_categories %}
+              <option value="{{ c }}">{{ c }}</option>
               {% endfor %}
             </select>
           </div>
@@ -126,6 +136,15 @@
             </select>
           </div>
           <div class="mb-3">
+            <label for="editEvalCategory" class="form-label">Category</label>
+            <select class="form-select" id="editEvalCategory" name="category">
+              <option value="">— none —</option>
+              {% for c in eval_categories %}
+              <option value="{{ c }}">{{ c }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
             <label for="editEvalMetrics" class="form-label">Metrics</label>
             <input type="text" class="form-control" id="editEvalMetrics" name="metrics">
           </div>
@@ -163,6 +182,7 @@
     document.getElementById('editEvalId').value = btn.getAttribute('data-id');
     document.getElementById('editEvalName').value = btn.getAttribute('data-name');
     document.getElementById('editEvalType').value = btn.getAttribute('data-eval-type');
+    document.getElementById('editEvalCategory').value = btn.getAttribute('data-category');
     document.getElementById('editEvalMetrics').value = btn.getAttribute('data-metrics');
     document.getElementById('editEvalModel').value = btn.getAttribute('data-model');
     document.getElementById('editEvalDataset').value = btn.getAttribute('data-dataset');

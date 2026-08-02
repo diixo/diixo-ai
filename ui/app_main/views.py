@@ -378,10 +378,19 @@ def evaluations(request):
     with open(datasets_path, encoding="utf-8") as f:
         datasets_data = json.load(f)
 
+    eval_categories = data.get("eval_categories") or [
+        "Linguistics & Grammar",
+        "Commonsense & Reasoning",
+        "Academic & Knowledge",
+        "Language Modeling",
+    ]
+    data["eval_categories"] = eval_categories
+
     if request.method == "POST":
         action = request.POST.get("action", "add")
         name = request.POST.get("name", "").strip()
         eval_type = request.POST.get("eval_type", "").strip()
+        category = request.POST.get("category", "").strip()
         metrics = request.POST.get("metrics", "").strip()
         model_id = request.POST.get("model_id", "").strip()
         dataset_id = request.POST.get("dataset_id", "").strip()
@@ -396,6 +405,7 @@ def evaluations(request):
                     if item.get("id") == eval_id:
                         item["name"] = name
                         item["eval_type"] = eval_type or None
+                        item["category"] = category or None
                         item["metrics"] = metrics_list
                         item["model_id"] = model_id or None
                         item["dataset_id"] = dataset_id or None
@@ -409,6 +419,7 @@ def evaluations(request):
                     "id": new_id,
                     "name": name,
                     "eval_type": eval_type or None,
+                    "category": category or None,
                     "metrics": metrics_list,
                     "model_id": model_id or None,
                     "dataset_id": dataset_id or None,
@@ -433,6 +444,7 @@ def evaluations(request):
         "description": "Evaluation cards",
         "goal": data.get("goal", ""),
         "eval_types": data.get("eval_types", []),
+        "eval_categories": eval_categories,
         "evaluations": evaluations,
         "models": models_list,
         "datasets": datasets_list,
