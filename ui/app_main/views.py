@@ -284,44 +284,6 @@ def trainings(request):
     with open(configs_path, encoding="utf-8") as f:
         configs_data = json.load(f)
 
-    if request.method == "POST":
-        model_in = request.POST.get("model_in", "").strip()
-        config_id = request.POST.get("config_id", "").strip()
-        model_out_existing = request.POST.get("model_out_existing", "").strip()
-        model_out_name = request.POST.get("model_out_name", "").strip()
-
-        if model_in and config_id and (model_out_existing or model_out_name):
-            models_list = models_data.setdefault("models", [])
-
-            if model_out_existing:
-                for m in models_list:
-                    if m["id"] == model_out_existing:
-                        m["parent_id"] = model_in
-                        m["config_id"] = config_id
-                        break
-            else:
-                existing_model_ids = {m.get("id") for m in models_list}
-                model_out_id = f"mod_{slugify(model_out_name) or len(models_list) + 1}"
-                while model_out_id in existing_model_ids:
-                    model_out_id = f"{model_out_id}-1"
-
-                parent_model = next((m for m in models_list if m["id"] == model_in), None)
-                architecture = parent_model["architecture"] if parent_model else "GPT"
-
-                models_list.append({
-                    "id": model_out_id,
-                    "name": model_out_name,
-                    "architecture": architecture,
-                    "parent_id": model_in,
-                    "config_id": config_id,
-                    "dataset_ids": [],
-                })
-
-            with open(models_path, "w", encoding="utf-8") as f:
-                json.dump(models_data, f, ensure_ascii=False, indent=2)
-
-        return redirect("app_main:trainings")
-
     models_list = models_data.get("models", [])
     configs_list = configs_data.get("configs", [])
     models_map = {m["id"]: m["name"] for m in models_list}
@@ -371,15 +333,9 @@ def evaluations(request):
 
 def evaluators(request):
     data_path = settings.BASE_DIR / "data" / "evaluators.json"
-    models_path = settings.BASE_DIR / "data" / "model_cards.json"
-    datasets_path = settings.BASE_DIR / "data" / "datasets.json"
 
     with open(data_path, encoding="utf-8") as f:
         data = json.load(f)
-    with open(models_path, encoding="utf-8") as f:
-        models_data = json.load(f)
-    with open(datasets_path, encoding="utf-8") as f:
-        datasets_data = json.load(f)
 
     eval_categories = data.get("eval_categories") or [
         "Linguistics & Grammar",
@@ -425,9 +381,6 @@ def evaluators(request):
             with open(data_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
         return redirect("app_main:evaluators")
-
-    models_list = models_data.get("models", [])
-    datasets_list = datasets_data.get("datasets", [])
 
     evaluators = data.get("evaluators", [])
 
