@@ -1,24 +1,24 @@
 {% extends "app_main/base.html" %}
 
 {% block meta %}
-<title>Diixo - Evaluations</title>
-<meta property="og:title" content="Diixo - Evaluations">
-<meta name="description" content="Evaluation cards">
-<meta property="og:description" content="Evaluation cards">
+<title>Diixo - Evaluators</title>
+<meta property="og:title" content="Diixo - Evaluators">
+<meta name="description" content="Evaluator cards">
+<meta property="og:description" content="Evaluator cards">
 {% endblock %}
 
 {% block content %}
 
-<h3 class="fw-bold mt-4">Evaluations</h3>
+<h3 class="fw-bold mt-4">Evaluators</h3>
 <p class="text-muted">{{ goal }}</p>
 
 <button type="button" class="btn btn-main d-inline-flex align-items-center align-self-start mb-2"
   data-bs-toggle="modal" data-bs-target="#addEvalModal">
-  <span class="material-icons me-1">add</span> Add evaluation
+  <span class="material-icons me-1">add</span> Add evaluator
 </button>
 
 <div class="row g-3 mt-1 mb-4">
-  {% for e in evaluations %}
+  {% for e in evaluators %}
   <div class="col-md-6 col-lg-3">
     <div class="card h-100 shadow-sm border-0">
       <div class="card-body">
@@ -52,7 +52,7 @@
       <form method="post">
         {% csrf_token %}
         <div class="modal-header">
-          <h5 class="modal-title" id="addEvalModalLabel">Add evaluation</h5>
+          <h5 class="modal-title" id="addEvalModalLabel">Add evaluator</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -118,7 +118,7 @@
         <input type="hidden" name="action" value="edit">
         <input type="hidden" name="eval_id" id="editEvalId">
         <div class="modal-header">
-          <h5 class="modal-title" id="editEvalModalLabel">Edit evaluation</h5>
+          <h5 class="modal-title" id="editEvalModalLabel">Edit evaluator</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

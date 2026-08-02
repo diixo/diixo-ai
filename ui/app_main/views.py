@@ -398,7 +398,7 @@ def evaluators(request):
         dataset_id = request.POST.get("dataset_id", "").strip()
 
         if name:
-            items = data.setdefault("evaluations", [])
+            items = data.setdefault("evaluators", [])
             metrics_list = [m.strip() for m in metrics.split(",") if m.strip()] if metrics else []
 
             if action == "edit":
@@ -429,15 +429,15 @@ def evaluators(request):
 
             with open(data_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
-        return redirect("app_main:evaluations")
+        return redirect("app_main:evaluators")
 
     models_list = models_data.get("models", [])
     datasets_list = datasets_data.get("datasets", [])
     models_map = {m["id"]: m["name"] for m in models_list}
     datasets_map = {d["id"]: d["name"] for d in datasets_list}
 
-    evaluations = data.get("evaluations", [])
-    for e in evaluations:
+    evaluators = data.get("evaluators", [])
+    for e in evaluators:
         e["model_name"] = models_map.get(e.get("model_id"), "")
         e["dataset_name"] = datasets_map.get(e.get("dataset_id"), "")
 
@@ -447,7 +447,7 @@ def evaluators(request):
         "goal": data.get("goal", ""),
         "eval_types": data.get("eval_types", []),
         "eval_categories": eval_categories,
-        "evaluations": evaluations,
+        "evaluators": evaluators,
         "models": models_list,
         "datasets": datasets_list,
     })

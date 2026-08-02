@@ -1,5 +1,5 @@
 {
-  "goal": "Evaluation cards for tracking model performance",
+  "goal": "Evaluator cards for tracking model performance",
   "eval_types": [
     "benchmark",
     "human eval",
@@ -12,7 +12,7 @@
     "Academic & Knowledge",
     "Language Modeling"
   ],
-  "evaluations": [
+  "evaluators": [
     {
       "id": "eval_mmlu",
       "name": "MMLU",
